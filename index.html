@@ -16,28 +16,32 @@
   <body>
     <div class="libraryContainer">
       <h1>Library</h1>
-      <div class="formContainer">
-        <div class="formInput">
-          <label for="book">Book</label>
-          <input type="text" name="book" id="book" />
+      <form action="" method="post" id="form_id">
+        <div class="formContainer">
+          <form action="">
+            <div class="formInput">
+              <label for="book">Book</label>
+              <input type="text" name="book" id="book" required />
+            </div>
+            <div class="formInput">
+              <label for="author">Author</label>
+              <input type="text" name="author" id="author" required />
+            </div>
+            <div class="formInput">
+              <label for="pages">Pages</label>
+              <input type="number" name="pages" id="pages" required />
+            </div>
+            <div class="formInput">
+              <label for="read">Status</label>
+              <select name="read" id="read">
+                <option value="read">Read</option>
+                <option value="notread">Not read</option>
+              </select>
+            </div>
+            <button type="button" class="submit">SUBMIT</button>
+          </form>
         </div>
-        <div class="formInput">
-          <label for="author">Author</label>
-          <input type="text" name="author" id="author" />
-        </div>
-        <div class="formInput">
-          <label for="pages">Pages</label>
-          <input type="number" name="pages" id="pages" />
-        </div>
-        <div class="formInput">
-          <label for="read">Status</label>
-          <select name="read" id="read">
-            <option value="read">Read</option>
-            <option value="notread">Not read</option>
-          </select>
-        </div>
-        <button class="submit">SUBMIT</button>
-      </div>
+      </form>
       <div class="shelfContainer">
         <div class="shelfHeader">
           <div class="bookName">Name</div>
@@ -60,12 +64,7 @@
           <button>DELETE</button>
         </div>
         <div class="bookObj">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quos
-            nulla enim impedit aliquam numquam nemo, eos totam inventore modi?
-            Consequatur possimus eius recusandae, perferendis cum vitae itaque
-            earum tempora.
-          </p>
+          <p>Lorem ipsum d</p>
           <p>musashi</p>
           <p>300</p>
           <button>READ</button>
@@ -73,5 +72,6 @@
         </div>
       </div>
     </div>
+    <script src="./script.js"></script>
   </body>
 </html>
