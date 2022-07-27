@@ -4,34 +4,74 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
     <title>Document</title>
   </head>
   <body>
-    <h1>Library</h1>
-    <div class="formContainer">
-      <label for="book">Book</label>
-      <input type="text" name="book" id="book" />
-      <label for="author">Author</label>
-      <input type="text" name="author" id="author" />
-      <label for="pages">Pages</label>
-      <input type="number" name="pages" id="pages" />
-      <label for="read">Status</label>
-      <select name="read" id="read">
-        <option value="read">Read</option>
-        <option value="notread">Not read</option>
-      </select>
-      <button>SUBMIT</button>
-    </div>
     <div class="libraryContainer">
-      <div class="libraryHeader">
-        <div class="bookName">Name</div>
-        <div class="bookAuthor">Author</div>
-        <div class="bookStatus">Status</div>
+      <h1>Library</h1>
+      <div class="formContainer">
+        <div class="formInput">
+          <label for="book">Book</label>
+          <input type="text" name="book" id="book" />
+        </div>
+        <div class="formInput">
+          <label for="author">Author</label>
+          <input type="text" name="author" id="author" />
+        </div>
+        <div class="formInput">
+          <label for="pages">Pages</label>
+          <input type="number" name="pages" id="pages" />
+        </div>
+        <div class="formInput">
+          <label for="read">Status</label>
+          <select name="read" id="read">
+            <option value="read">Read</option>
+            <option value="notread">Not read</option>
+          </select>
+        </div>
+        <button class="submit">SUBMIT</button>
       </div>
-      <p>naruo</p>
-      <p>musashi</p>
-      <button>READ</button>
-      <button>DELETE</button>
+      <div class="shelfContainer">
+        <div class="shelfHeader">
+          <div class="bookName">Name</div>
+          <div class="bookAuthor">Author</div>
+          <div class="bookPages">Pages</div>
+          <div class="bookStatus">Status</div>
+        </div>
+        <div class="bookObj">
+          <p>naruo</p>
+          <p>musashi</p>
+          <p>300</p>
+          <button>READ</button>
+          <button>DELETE</button>
+        </div>
+        <div class="bookObj">
+          <p>naruo</p>
+          <p>musashi</p>
+          <p>300</p>
+          <button>READ</button>
+          <button>DELETE</button>
+        </div>
+        <div class="bookObj">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quos
+            nulla enim impedit aliquam numquam nemo, eos totam inventore modi?
+            Consequatur possimus eius recusandae, perferendis cum vitae itaque
+            earum tempora.
+          </p>
+          <p>musashi</p>
+          <p>300</p>
+          <button>READ</button>
+          <button>DELETE</button>
+        </div>
+      </div>
     </div>
   </body>
 </html>
