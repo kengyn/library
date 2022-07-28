@@ -52,6 +52,7 @@ function addToShelf() {
     let pageEl = document.createElement("p");
     let readEl = document.createElement("button");
     let deleteEl = document.createElement("button");
+    readEl.classList.add("readBtn");
     deleteEl.classList.add("deleteBtn");
     deleteEl.textContent += "DELETE";
     for (let label in book) {
@@ -64,7 +65,6 @@ function addToShelf() {
       } else if (label == "read") {
         readEl.textContent += book[label];
       }
-      //   console.log(`${label}: ${book[label]}`);
     }
     let newBook = document.createElement("div");
     newBook.dataset.num = myLibrary.indexOf(book);
@@ -75,5 +75,28 @@ function addToShelf() {
     newBook.appendChild(readEl);
     newBook.appendChild(deleteEl);
     shelf.appendChild(newBook);
+  }
+}
+
+Book.prototype.readToggle = function () {
+  if (this.read == "READ") {
+    this.read = "UNREAD";
+  } else {
+    this.read = "READ";
+  }
+};
+
+document.addEventListener("click", readListener);
+
+function readListener(e) {
+  let element = e.target;
+  if (element.classList.contains("readBtn")) {
+    if (e.composedPath()[0].innerText == "READ") {
+      myLibrary[e.composedPath()[1].dataset.num].readToggle();
+      e.composedPath()[0].innerText = "UNREAD";
+    } else {
+      myLibrary[e.composedPath()[1].dataset.num].readToggle();
+      e.composedPath()[0].innerText = "READ";
+    }
   }
 }
