@@ -1,3 +1,26 @@
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDGxGCxfJN1YNj74DpHoBaqk1lBncXA-tU",
+  authDomain: "library-fbfa2.firebaseapp.com",
+  projectId: "library-fbfa2",
+  storageBucket: "library-fbfa2.appspot.com",
+  messagingSenderId: "120582080353",
+  appId: "1:120582080353:web:0e2f68673ccfb78a9de720",
+};
+
+initializeApp(firebaseConfig);
+const db = getFirestore();
+
 let bookTitle = document.querySelector("#book");
 let author = document.querySelector("#author");
 let pages = document.querySelector("#pages");
@@ -5,47 +28,56 @@ let readStatus = document.querySelector("#read");
 let btn = document.querySelector(".submit");
 let shelf = document.querySelector(".shelfMain");
 
-document.addEventListener("click", deleteListener);
+document.addEventListener("click", (e) => deleteListener(e));
 
-function deleteListener(e) {
+async function deleteListener(e) {
   let element = e.target;
   if (element.classList.contains("deleteBtn")) {
-    myLibrary.splice(e.composedPath()[1].dataset.num, 1);
+    const docRef = doc(db, "books", element.parentNode.id);
+    await deleteDoc(docRef);
     shelf.innerHTML = "";
-    addToShelf();
+    loadBooks();
   }
 }
 
 btn.addEventListener("click", () => {
-  if (book.value == "" || author.value == "" || pages.value == "") {
-    alert("empty");
+  if (bookTitle.value == "" || author.value == "" || pages.value == "") {
+    alert("one of the values is empty");
   } else {
-    shelf.innerHTML = "";
     addBookToLibrary(
       bookTitle.value,
       author.value,
       pages.value,
       readStatus.value
     );
-    addToShelf();
+    shelf.innerHTML = "";
+    loadBooks();
   }
 });
 
 let myLibrary = [];
 
-class Book {
-  constructor(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-  }
-  static returnBook = "book constructor";
+async function loadBooks() {
+  myLibrary.splice(0, myLibrary.length);
+  const colRef = collection(db, "books");
+  const docSnap = await getDocs(colRef);
+  docSnap.forEach((doc) => {
+    myLibrary.push({ id: doc.id, ...doc.data() });
+  });
+  addToShelf();
 }
 
-function addBookToLibrary(bookTitle, author, pages, readStatus) {
-  let newBook = new Book(bookTitle, author, pages, readStatus);
-  myLibrary.push(newBook);
+async function addBookToLibrary(bookTitle, author, pages, readStatus) {
+  try {
+    await addDoc(collection(getFirestore(), "books"), {
+      title: bookTitle,
+      author: author,
+      pages: pages,
+      read: readStatus,
+    });
+  } catch (e) {
+    console.error("mf uh: ", e);
+  }
 }
 
 function addToShelf() {
@@ -72,6 +104,7 @@ function addToShelf() {
     let newBook = document.createElement("div");
     newBook.dataset.num = myLibrary.indexOf(book);
     newBook.classList.add("bookObj");
+    newBook.setAttribute("id", book.id);
     newBook.appendChild(titleEl);
     newBook.appendChild(authorEl);
     newBook.appendChild(pageEl);
@@ -81,25 +114,21 @@ function addToShelf() {
   }
 }
 
-Book.prototype.readToggle = function () {
-  if (this.read == "READ") {
-    this.read = "UNREAD";
-  } else {
-    this.read = "READ";
-  }
-};
-
 document.addEventListener("click", readListener);
 
-function readListener(e) {
+async function readListener(e) {
   let element = e.target;
   if (element.classList.contains("readBtn")) {
-    if (e.composedPath()[0].innerText == "READ") {
-      myLibrary[e.composedPath()[1].dataset.num].readToggle();
-      e.composedPath()[0].innerText = "UNREAD";
+    if (element.innerText == "READ") {
+      const docRef = doc(db, "books", element.parentNode.id);
+      await updateDoc(docRef, { read: "UNREAD" });
+      element.innerText = "UNREAD";
     } else {
-      myLibrary[e.composedPath()[1].dataset.num].readToggle();
-      e.composedPath()[0].innerText = "READ";
+      const docRef = doc(db, "books", element.parentNode.id);
+      await updateDoc(docRef, { read: "READ" });
+      element.innerText = "READ";
     }
   }
 }
+
+loadBooks();
